@@ -11,7 +11,7 @@ The CLI is engine-version neutral and works with the SmithUE UE5.1 and UE5.5 com
 - **macOS**: `npm install -g "https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz"`
 - **Linux**: `npm install -g "https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz"`
 
-*Note: Git and Node.js 18+ are required for installation from the compatibility branch. The v1 plugin server is Windows-only; the CLI can install on any OS but requires a Windows machine running the UE editor.*
+*Note: Node.js 18+ and HTTPS access to GitHub are required for installation from the compatibility branch tarball; Git itself is not required. The v1 plugin server is Windows-only; the CLI can install on any OS but requires a Windows machine running the UE editor.*
 
 ### Prerequisites check
 Ensure Node.js 18+ is installed. Run `node -v` to check.
