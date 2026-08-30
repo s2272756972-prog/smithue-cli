@@ -9,7 +9,6 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "dev": "tsc -p tsconfig.build.json --watch",
-    "prepare": "npm run build",
     "postinstall": "node scripts/postinstall.cjs"
   },
   "files": [

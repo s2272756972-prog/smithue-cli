@@ -57,11 +57,13 @@ git add -A                      # 或精确 add 改动文件
 git commit -F <msgfile>
 git push origin ue5.1-ue5.5-compat
 
-# 5) 从 GitHub 分支安装到临时 prefix，验证 prepare 会生成 dist + bin
+# 5) 从 GitHub 分支安装到临时 prefix，验证已提交的 dist + bin
 npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat" --prefix <temp-prefix>
 <temp-prefix>/smithue-cli --version
 git status
 ```
+
+> GitHub 安装依赖分支内已提交的干净 `dist/`。修改 TypeScript 后必须先运行 `npm run build` 并提交生成结果；不要依赖 Git 依赖临时克隆中的 `prepare`，目标 npm 环境不保证具备 `typescript` 开发依赖。
 
 > 如未来要发布 npm，必须先确定自有包名/权限并获得明确授权，再单独执行 npm 发布流程；不能覆盖上游 `smithue-cli` 包。
 

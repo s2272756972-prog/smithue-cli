@@ -8,7 +8,7 @@
 - 端口文件与发现结果类型增加可选 `engine_version`，`smithue-cli status` 优先使用 `/ready` 返回值，并在缺失时回退到端口文件。
 - 单元测试分别覆盖 UE5.1 与 UE5.5 版本字符串，确认 JSON 透传和 `status` 输出形态。
 - `/ready` 的 HTTP 503 + `{ready:false}` 现在被视为合法启动状态，`status --wait` 会继续轮询；其他非 2xx 响应仍报错。
-- GitHub 安装增加 `prepare` 构建钩子，保证从兼容分支安装时生成 `dist/cli.js`。
+- 兼容分支改为提交干净构建后的 `dist/`，避免 npm 安装 Git 依赖时因临时克隆缺少 TypeScript 开发工具而在 `prepare` 阶段失败。
 
 ### Compatibility
 
@@ -22,6 +22,7 @@
 - `npm run build`：通过。
 - `npm test -- --run`：25 个测试文件、193 项测试全部通过。
 - `npm pack` 的干净产物不包含编译后的测试文件；安装到临时 prefix 后 `smithue-cli --version` 返回 `0.15.1`。
+- 直接从 `github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat` 安装到临时 prefix 的分发链路已验证；安装不依赖目标机执行 TypeScript 编译。
 - 分别连接真实 UE5.1 `-NullRHI` 与 UE5.5 编辑器完成 `status --wait` / `ping` 只读验证，两个实例均返回 `ready:true`、真实 `engine_version` 与 `pong`。
 
 ### Distribution status

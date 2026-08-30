@@ -1,0 +1,1 @@
+{"version":3,"file":"loader.d.ts","sourceRoot":"","sources":["../../src/spec/loader.ts"],"names":[],"mappings":"AAGA,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,YAAY,CAAC;AAQ5C,qBAAa,mBAAoB,SAAQ,KAAK;IAEnC,MAAM,EAAE,MAAM,EAAE;gBAAhB,MAAM,EAAE,MAAM,EAAE,EACvB,OAAO,EAAE,MAAM;CAKlB;AAED,wBAAsB,QAAQ,CAAC,QAAQ,EAAE,MAAM,GAAG,OAAO,CAAC,SAAS,CAAC,CAUnE"}
