@@ -1,8 +1,7 @@
 // Auto-deploy the `smithue-control` skill on a GLOBAL compatibility-branch install.
 //
-// Self-contained CommonJS, shipped as-is (no build step), so a fresh/unbuilt checkout
-// never fails `npm install`. It must NEVER throw or exit non-zero — a failing
-// postinstall would break the user's install.
+// Self-contained CommonJS, shipped as-is (no build step). It must NEVER throw
+// or exit non-zero because a failing postinstall would break the CLI install.
 //
 // Behavior (global installs only):
 //   copies the ENTIRE skill/ bundle (SKILL.md + references/ + scripts/) to
@@ -14,18 +13,16 @@
 'use strict';
 
 try {
-  // Only act on global installs; respect the opt-out.
   if (process.env.npm_config_global === 'true' && process.env.SMITHUE_SKILL_NO_AUTOINSTALL !== '1') {
     const fs = require('node:fs');
     const os = require('node:os');
     const path = require('node:path');
 
-    const skillDir = path.resolve(__dirname, '..', 'skill');
-    // Presence of SKILL.md is the sentinel that the bundle exists.
+    const skillDir = path.resolve(__dirname, 'skill');
     if (fs.existsSync(path.join(skillDir, 'SKILL.md'))) {
       const home = os.homedir();
-
       const skillsDirs = [path.join(home, '.agents', 'skills')];
+
       for (const agentRoot of ['.claude', '.codex']) {
         if (fs.existsSync(path.join(home, agentRoot))) {
           skillsDirs.push(path.join(home, agentRoot, 'skills'));
@@ -37,23 +34,21 @@ try {
         try {
           const dest = path.join(skillsDir, 'smithue-control');
           fs.mkdirSync(dest, { recursive: true });
-          // Copy the whole bundle (SKILL.md + references/ + scripts/), not just SKILL.md.
           fs.cpSync(skillDir, dest, { recursive: true });
-          // Legacy cleanup: cpSync merges, so a stale `reference/` dir from
-          // pre-rename bundles would survive the upgrade — remove it.
+
           const legacy = path.join(dest, 'reference');
           if (fs.existsSync(legacy)) {
             fs.rmSync(legacy, { recursive: true, force: true });
           }
           installed.push(dest);
         } catch (_) {
-          // ignore a single target failure (permissions / read-only)
+          // Ignore a single target failure (permissions / read-only).
         }
       }
 
       if (installed.length > 0) {
         console.log('[smithue-cli] smithue-control skill (SKILL.md + references/ + scripts/) installed to:');
-        for (const p of installed) console.log('  ' + p);
+        for (const installedPath of installed) console.log('  ' + installedPath);
         console.log('[smithue-cli] reload your AI tool to pick it up. Opt out: SMITHUE_SKILL_NO_AUTOINSTALL=1');
       }
     }

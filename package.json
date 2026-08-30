@@ -9,13 +9,13 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "dev": "tsc -p tsconfig.build.json --watch",
-    "postinstall": "node scripts/postinstall.cjs"
+    "postinstall": "node postinstall.cjs"
   },
   "files": [
     "dist/",
     "schemas/",
     "skill/",
-    "scripts/postinstall.cjs",
+    "postinstall.cjs",
     "package.json",
     "README.md"
   ],

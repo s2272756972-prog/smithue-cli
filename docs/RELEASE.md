@@ -18,7 +18,7 @@
 2. **CJK 文件（`skill/SKILL.md`、`docs/*.md`）用 Edit/Write 工具改，绝不用 PowerShell `Set-Content`**（PS 5.1 按 GBK 误读 UTF-8 → 乱码）。
 3. **提交信息用 `git commit -F <file>`**，提交信息文件用 Node/Write 写（PowerShell 多行 `-m` 和 CJK 会被吞 / 拆行）。
 4. **已发布版本不可覆盖**：npm 不允许同版本号重发。发错了只能 `npm version patch` 再发一版。
-5. **`files` 白名单决定打包内容**：`package.json` 的 `files` = `["dist/","schemas/","skill/","scripts/postinstall.cjs","package.json","README.md"]`。**新增需要进包的产物（如新 schema、新 skill 文件）必须同步加进 `files`，否则不会被发布。**
+5. **`files` 白名单决定打包内容**：`package.json` 的 `files` = `["dist/","schemas/","skill/","postinstall.cjs","package.json","README.md"]`。**新增需要进包的产物（如新 schema、新 skill 文件）必须同步加进 `files`，否则不会被发布。**
 6. **`*.tgz`（`npm pack` 产物）不要提交进仓库**（应在 `.gitignore`）。
 
 ## 2. 版本号（semver）
@@ -72,7 +72,7 @@ git status
 ## 5. SKILL 部署（`smithue-control`）
 
 - **`skill/`（SKILL.md + `references/` + `scripts/`）是唯一发布 / 部署源**（在 `files` 白名单内）。**不要**改其它同名副本。
-- `scripts/postinstall.cjs` 在**全局安装兼容分支**时自动把整个 `skill/` bundle 部署到：
+- 根目录 `postinstall.cjs` 在**全局安装兼容分支**时自动把整个 `skill/` bundle 部署到：
   - `~/.agents/skills/smithue-control/`（主，始终）
   - `~/.claude/skills/`、`~/.codex/skills/`（仅当对应目录已存在）
   - 幂等覆盖；自动清理 0.15 之前旧布局残留的 `reference/` 目录；可用环境变量 `SMITHUE_SKILL_NO_AUTOINSTALL=1` 关闭。
