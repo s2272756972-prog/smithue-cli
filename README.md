@@ -7,9 +7,9 @@ The CLI is engine-version neutral and works with the SmithUE UE5.1 and UE5.5 com
 ## For AI Agents
 
 ### Quick Deploy
-- **Windows**: `npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat"`
-- **macOS**: `npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat"`
-- **Linux**: `npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat"`
+- **Windows**: `npm install -g "https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz"`
+- **macOS**: `npm install -g "https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz"`
+- **Linux**: `npm install -g "https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz"`
 
 *Note: Git and Node.js 18+ are required for installation from the compatibility branch. The v1 plugin server is Windows-only; the CLI can install on any OS but requires a Windows machine running the UE editor.*
 
@@ -31,11 +31,11 @@ smithue-cli status
 ## Installation
 Install the maintained compatibility build directly from this fork:
 ```bash
-npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat"
+npm install -g "https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz"
 ```
 Or run it without a permanent global install:
 ```bash
-npx --yes --package "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat" smithue-cli <command>
+npx --yes --package "https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz" smithue-cli <command>
 ```
 
 Plain `npm install -g smithue-cli` or `npx smithue-cli` resolves the upstream npm package, not this compatibility build.
@@ -44,7 +44,7 @@ To deploy or refresh the bundled AI skill after a global install, run:
 ```bash
 smithue-cli skill --install
 ```
-The compatibility branch uses an explicit command instead of an npm lifecycle hook so GitHub installs also work under npm versions that restrict or reorder install scripts.
+The compatibility branch uses the GitHub branch tarball plus an explicit skill command. This avoids npm versions that create broken global links for direct Git dependencies or restrict install scripts.
 
 ## Subcommands
 

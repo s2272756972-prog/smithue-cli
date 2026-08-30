@@ -1,11 +1,11 @@
 import { execSync } from 'node:child_process';
 import { SmithUEError } from '../portfile.js';
 import { printResult, printError } from '../output.js';
-import { COMPAT_CLI_GIT_SPEC } from '../distribution.js';
+import { COMPAT_CLI_INSTALL_SPEC } from '../distribution.js';
 
 export async function upgradeCommand(): Promise<void> {
   try {
-    const output = execSync(`npm install -g ${COMPAT_CLI_GIT_SPEC}`, { stdio: 'pipe', encoding: 'utf-8' });
+    const output = execSync(`npm install -g ${COMPAT_CLI_INSTALL_SPEC}`, { stdio: 'pipe', encoding: 'utf-8' });
     printResult({ status: 'updated', output: String(output).trim() });
   } catch (err: unknown) {
     if ((err as { code?: string }).code === 'ENOENT') {

@@ -11,7 +11,7 @@ description: 通过 smithue-cli 从外部检查或修改正在运行的 UE 编�
 
 ## 前置 / 适用
 
-- SmithUE 是 UE5 编辑器插件，通过本地 HTTP 暴露编辑器能力；本兼容 CLI 从 fork 的 UE5.1 / UE5.5 分支安装：`npm i -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat"`。裸 `npm i -g smithue-cli` / `npx smithue-cli` 会解析到上游 npm 包。
+- SmithUE 是 UE5 编辑器插件，通过本地 HTTP 暴露编辑器能力；本兼容 CLI 从 fork 的 UE5.1 / UE5.5 分支归档安装：`npm i -g "https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz"`。裸 `npm i -g smithue-cli` / `npx smithue-cli` 会解析到上游 npm 包。
 - **前提（缺一不可）**：
   1. 目标工程已**安装并启用 SmithUE 插件**（只装 CLI 不够——插件才是暴露能力的一端）。未装 → 先提醒用户装，否则本 skill 全部无效。
   2. **UE 编辑器正在运行**。每次操作前 `smithue-cli status` 确认 `ready:true`，没就绪就停。

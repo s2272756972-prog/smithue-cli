@@ -6,7 +6,7 @@
 
 - **包名**：`smithue-cli`（保留上游名称，GitHub 安装后仍提供 `smithue-cli` 命令）。
 - **分支**：`ue5.1-ue5.5-compat`（remote `s2272756972-prog/smithue-cli`）。
-- **安装 spec**：`github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat`。
+- **安装 spec**：`https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz`。
 - **与插件版本号完全独立**：`smithue-cli` 与 `SmithUE` 插件是两个独立产品、独立版本号，**禁止互相比较 / 对齐**。兼容性以 HTTP 协议契约为准。
 - **工具链**：npm-only（**无 bun**）、TypeScript、ESM / NodeNext（本地 import 必须带 `.js`）、测试用 vitest。
 
@@ -58,7 +58,7 @@ git commit -F <msgfile>
 git push origin ue5.1-ue5.5-compat
 
 # 5) 从 GitHub 分支安装到临时 prefix，验证已提交的 dist + bin
-npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat" --prefix <temp-prefix>
+npm install -g "https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz" --prefix <temp-prefix>
 <temp-prefix>/smithue-cli --version
 <temp-prefix>/smithue-cli skill --install   # 如需部署 skill；测试时可省略
 git status
@@ -94,7 +94,7 @@ if($?){
   git add -A
   git commit -F commit.txt
   git push origin ue5.1-ue5.5-compat
-  npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat" --prefix <temp-prefix>
+  npm install -g "https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz" --prefix <temp-prefix>
 }
 ```
 

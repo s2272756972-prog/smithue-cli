@@ -23,12 +23,12 @@
 - `npm run build`：通过。
 - `npm test -- --run`：25 个测试文件、193 项测试全部通过。
 - `npm pack` 的干净产物不包含编译后的测试文件；安装到临时 prefix 后 `smithue-cli --version` 返回 `0.15.1`。
-- 直接从 `github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat` 安装到临时 prefix 的分发链路已验证；安装不依赖目标机执行 TypeScript 编译。
+- 直接从分支归档 `https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz` 安装到临时 prefix 的分发链路已验证；安装不依赖目标机执行 TypeScript 编译。
 - 分别连接真实 UE5.1 `-NullRHI` 与 UE5.5 编辑器完成 `status --wait` / `ping` 只读验证，两个实例均返回 `ready:true`、真实 `engine_version` 与 `pong`。
 
 ### Distribution status
 
-- `package.json` 版本为 `0.15.1`，通过 `github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat` 分发。
+- `package.json` 版本为 `0.15.1`，通过自有 GitHub 兼容分支的 tarball 归档分发。
 - 尚未发布到 npm；裸 `npx smithue-cli` 仍会解析到上游 npm 包，文档和升级命令不再使用该入口。
 - 全局安装后如需部署 AI skill，显式执行 `smithue-cli skill --install`；兼容分支不依赖 npm 安装脚本。
 

@@ -40,7 +40,7 @@ describe('upgradeCommand', () => {
     await upgradeCommand();
 
     expect(mockExecSync).toHaveBeenCalledWith(
-      'npm install -g github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat',
+      'npm install -g https://github.com/s2272756972-prog/smithue-cli/archive/refs/heads/ue5.1-ue5.5-compat.tar.gz',
       { stdio: 'pipe', encoding: 'utf-8' },
     );
     expect(mockPrintError).not.toHaveBeenCalled();
