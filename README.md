@@ -2,6 +2,8 @@
 
 Stateless command line interface for the SmithUE Unreal Engine plugin.
 
+The CLI is engine-version neutral and works with the SmithUE UE5.1 and UE5.5 compatibility branches. Newer compatible plugins expose `engine_version` in `smithue-cli status`; older plugins continue to work without that field.
+
 ## For AI Agents
 
 ### Quick Deploy

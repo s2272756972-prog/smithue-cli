@@ -30,6 +30,7 @@ export interface PortfileData {
   project_name: string;
   started_at: string;
   plugin_version: string;
+  engine_version?: string;
 }
 
 export interface DiscoverResult {
@@ -38,6 +39,7 @@ export interface DiscoverResult {
   project: string;
   project_name: string;
   plugin_version?: string;
+  engine_version?: string;
   selection_mode?: 'pinned' | 'most-recent' | 'explicit';
   busy?: boolean;
 }
@@ -301,6 +303,7 @@ export async function discoverPort(opts: DiscoverOpts = {}): Promise<DiscoverRes
     project: data.project,
     project_name: data.project_name,
     plugin_version: data.plugin_version,
+    engine_version: data.engine_version,
     selection_mode: selectionMode,
     busy: liveness.busy,
   };

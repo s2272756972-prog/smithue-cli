@@ -55,7 +55,7 @@ describe('statusCommand', () => {
   });
 
   it('no wait, ready:true → printResult called with full shape', async () => {
-    mockGetReady.mockResolvedValue({ ready: true, version: '5.4.0', pie_active: false });
+    mockGetReady.mockResolvedValue({ ready: true, version: '1.15.0-UE5.5', engine_version: '5.5.4-0+++UE5+Release-5.5', pie_active: false });
 
     await statusCommand({});
 
@@ -64,7 +64,8 @@ describe('statusCommand', () => {
       pid: 1234,
       project_name: 'MyProject',
       ready: true,
-      version: '5.4.0',
+      version: '1.15.0-UE5.5',
+      engine_version: '5.5.4-0+++UE5+Release-5.5',
       pie_active: false,
     });
     expect(mockPrintError).not.toHaveBeenCalled();
@@ -81,6 +82,7 @@ describe('statusCommand', () => {
       project_name: 'MyProject',
       ready: false,
       version: undefined,
+      engine_version: undefined,
       pie_active: undefined,
     });
     expect(mockPrintError).not.toHaveBeenCalled();
@@ -92,7 +94,7 @@ describe('statusCommand', () => {
     mockGetReady
       .mockResolvedValueOnce({ ready: false })
       .mockResolvedValueOnce({ ready: false })
-      .mockResolvedValueOnce({ ready: true, version: '5.4.0', pie_active: true });
+      .mockResolvedValueOnce({ ready: true, version: '1.15.0-UE5.5', engine_version: '5.5.4-0+++UE5+Release-5.5', pie_active: true });
 
     const promise = statusCommand({ wait: 10 });
 
@@ -105,7 +107,8 @@ describe('statusCommand', () => {
       pid: 1234,
       project_name: 'MyProject',
       ready: true,
-      version: '5.4.0',
+      version: '1.15.0-UE5.5',
+      engine_version: '5.5.4-0+++UE5+Release-5.5',
       pie_active: true,
     });
     expect(mockPrintError).not.toHaveBeenCalled();

@@ -98,5 +98,5 @@ if($?){
 ## 7. 与插件发版的区别（勿混淆）
 
 - 本流程**只管 smithue-cli（npm）**。
-- **SmithUE 插件**走另一套：bump `.uplugin` → UBT 重编 → 打包 `Saved/SmithUE-vX-UE5.2-Win64.zip`（剔除 `.pdb` / Live Coding 临时文件）→ `gh release create vX-UE5.2`（GitHub Releases）。详见插件仓库 `docs/spec/`。
+- **SmithUE 插件**走另一套：bump `.uplugin` → 用目标 UE 版本的 UBT 重编 → 打包 `Saved/SmithUE-vX-UE5.x-Win64.zip`（剔除 `.pdb` / Live Coding 临时文件）→ 创建带目标引擎版本后缀的 GitHub Release。详见插件仓库 `docs/spec/`。
 - 两者**版本号独立递增**，发版时机互不依赖。

@@ -161,7 +161,7 @@ describe('SmithUEClient', () => {
 
   describe('getReady()', () => {
     it('GETs /ready and returns parsed JSON', async () => {
-      const readyPayload = { ready: true, version: '1.2.3', pie_active: false };
+      const readyPayload = { ready: true, version: '1.15.0-UE5.1', engine_version: '5.1.1-0+++UE5+Release-5.1', pie_active: false };
       const spy = mockFetch(readyPayload);
       const client = makeClient();
       const result = await client.getReady();

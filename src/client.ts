@@ -130,8 +130,8 @@ export class SmithUEClient {
     return data.tools ?? [];
   }
 
-  async getReady(): Promise<{ ready: boolean; version?: string; pie_active?: boolean }> {
-    return this.getJson<{ ready: boolean; version?: string; pie_active?: boolean }>('/ready');
+  async getReady(): Promise<{ ready: boolean; version?: string; engine_version?: string; pie_active?: boolean }> {
+    return this.getJson<{ ready: boolean; version?: string; engine_version?: string; pie_active?: boolean }>('/ready');
   }
 
   async isConnected(): Promise<boolean> {
