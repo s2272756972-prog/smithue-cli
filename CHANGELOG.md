@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased — UE5.1 / UE5.5 engine-version reporting
+
+### Added
+
+- `SmithUEClient.getReady()` 支持插件 `/ready` 返回的可选 `engine_version` 字段。
+- 端口文件与发现结果类型增加可选 `engine_version`，`smithue-cli status` 优先使用 `/ready` 返回值，并在缺失时回退到端口文件。
+- 单元测试分别覆盖 UE5.1 与 UE5.5 版本字符串，确认 JSON 透传和 `status` 输出形态。
+
+### Compatibility
+
+- CLI 仍按 HTTP 协议而不是 UE 版本耦合；同一 CLI 分支可连接 SmithUE 的 UE5.1、UE5.5 兼容分支。
+- `engine_version` 为可选字段，未提供该字段的旧版 SmithUE 插件继续正常工作，不会伪造或猜测引擎版本。
+- 插件版本号与 CLI npm 版本号继续独立，不进行数值对齐或错误的“版本不一致”判断。
+
+### Verification
+
+- `npm run typecheck`：通过。
+- `npm run build`：通过。
+- `npm test -- --run`：25 个测试文件、191 项测试全部通过。
+
+### Release status
+
+- 本记录对应 `ue5.1-ue5.5-compat` 分支，尚未提升 `package.json` 版本，也尚未发布到 npm。
+
 ## v0.15.0 — Skill bundle: rename reference/ → references/ + new domain docs
 
 ### Changed
