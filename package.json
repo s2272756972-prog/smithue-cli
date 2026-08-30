@@ -8,14 +8,12 @@
     "build": "tsc -p tsconfig.build.json",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "dev": "tsc -p tsconfig.build.json --watch",
-    "postinstall": "node postinstall.cjs"
+    "dev": "tsc -p tsconfig.build.json --watch"
   },
   "files": [
     "dist/",
     "schemas/",
     "skill/",
-    "postinstall.cjs",
     "package.json",
     "README.md"
   ],

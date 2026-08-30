@@ -18,7 +18,7 @@
 2. **CJK 文件（`skill/SKILL.md`、`docs/*.md`）用 Edit/Write 工具改，绝不用 PowerShell `Set-Content`**（PS 5.1 按 GBK 误读 UTF-8 → 乱码）。
 3. **提交信息用 `git commit -F <file>`**，提交信息文件用 Node/Write 写（PowerShell 多行 `-m` 和 CJK 会被吞 / 拆行）。
 4. **已发布版本不可覆盖**：npm 不允许同版本号重发。发错了只能 `npm version patch` 再发一版。
-5. **`files` 白名单决定打包内容**：`package.json` 的 `files` = `["dist/","schemas/","skill/","postinstall.cjs","package.json","README.md"]`。**新增需要进包的产物（如新 schema、新 skill 文件）必须同步加进 `files`，否则不会被发布。**
+5. **`files` 白名单决定打包内容**：`package.json` 的 `files` = `["dist/","schemas/","skill/","package.json","README.md"]`。**新增需要进包的产物（如新 schema、新 skill 文件）必须同步加进 `files`，否则不会被发布。**
 6. **`*.tgz`（`npm pack` 产物）不要提交进仓库**（应在 `.gitignore`）。
 
 ## 2. 版本号（semver）
@@ -60,6 +60,7 @@ git push origin ue5.1-ue5.5-compat
 # 5) 从 GitHub 分支安装到临时 prefix，验证已提交的 dist + bin
 npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat" --prefix <temp-prefix>
 <temp-prefix>/smithue-cli --version
+<temp-prefix>/smithue-cli skill --install   # 如需部署 skill；测试时可省略
 git status
 ```
 
@@ -72,10 +73,10 @@ git status
 ## 5. SKILL 部署（`smithue-control`）
 
 - **`skill/`（SKILL.md + `references/` + `scripts/`）是唯一发布 / 部署源**（在 `files` 白名单内）。**不要**改其它同名副本。
-- 根目录 `postinstall.cjs` 在**全局安装兼容分支**时自动把整个 `skill/` bundle 部署到：
+- GitHub 兼容分支不使用 npm 生命周期钩子；全局安装后由 `smithue-cli skill --install` 显式把整个 `skill/` bundle 部署到：
   - `~/.agents/skills/smithue-control/`（主，始终）
   - `~/.claude/skills/`、`~/.codex/skills/`（仅当对应目录已存在）
-  - 幂等覆盖；自动清理 0.15 之前旧布局残留的 `reference/` 目录；可用环境变量 `SMITHUE_SKILL_NO_AUTOINSTALL=1` 关闭。
+  - 幂等覆盖；自动清理 0.15 之前旧布局残留的 `reference/` 目录。
 - **本机已装、未走全局安装** → postinstall 不触发，需**手动同步**让当前环境立即生效：
   ```bash
   # 在仓库根目录（部署整个 bundle，含 legacy reference/ 清理）

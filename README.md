@@ -40,6 +40,12 @@ npx --yes --package "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat" smi
 
 Plain `npm install -g smithue-cli` or `npx smithue-cli` resolves the upstream npm package, not this compatibility build.
 
+To deploy or refresh the bundled AI skill after a global install, run:
+```bash
+smithue-cli skill --install
+```
+The compatibility branch uses an explicit command instead of an npm lifecycle hook so GitHub installs also work under npm versions that restrict or reorder install scripts.
+
 ## Subcommands
 
 | Command | Description |

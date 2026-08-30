@@ -9,7 +9,7 @@
 - 单元测试分别覆盖 UE5.1 与 UE5.5 版本字符串，确认 JSON 透传和 `status` 输出形态。
 - `/ready` 的 HTTP 503 + `{ready:false}` 现在被视为合法启动状态，`status --wait` 会继续轮询；其他非 2xx 响应仍报错。
 - 兼容分支改为提交干净构建后的 `dist/`，避免 npm 安装 Git 依赖时因临时克隆缺少 TypeScript 开发工具而在 `prepare` 阶段失败。
-- 自包含 `postinstall.cjs` 移到包根目录并加入明确白名单，兼容 npm Git 依赖安装阶段的文件布局。
+- GitHub 兼容分支取消自动 `postinstall` 生命周期钩子，改用显式 `smithue-cli skill --install`；避免 npm 11 在 Git 依赖完成文件展开前执行钩子导致安装失败。
 
 ### Compatibility
 
@@ -30,6 +30,7 @@
 
 - `package.json` 版本为 `0.15.1`，通过 `github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat` 分发。
 - 尚未发布到 npm；裸 `npx smithue-cli` 仍会解析到上游 npm 包，文档和升级命令不再使用该入口。
+- 全局安装后如需部署 AI skill，显式执行 `smithue-cli skill --install`；兼容分支不依赖 npm 安装脚本。
 
 ## v0.15.0 — Skill bundle: rename reference/ → references/ + new domain docs
 
