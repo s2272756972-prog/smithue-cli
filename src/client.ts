@@ -29,7 +29,12 @@ export class SmithUEClient {
     return { 'Content-Type': 'application/json; charset=utf-8' };
   }
 
-  private async fetchJson<T>(path: string, init: RequestInit, timeoutMs?: number): Promise<T> {
+  private async fetchJson<T>(
+    path: string,
+    init: RequestInit,
+    timeoutMs?: number,
+    acceptedStatuses: readonly number[] = [],
+  ): Promise<T> {
     const ms = timeoutMs ?? this.timeout;
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), ms);
@@ -40,7 +45,7 @@ export class SmithUEClient {
         signal: controller.signal,
       });
 
-      if (!response.ok) {
+      if (!response.ok && !acceptedStatuses.includes(response.status)) {
         const body = await response.text().catch(() => '');
         throw new Error(
           `SmithUE plugin returned HTTP ${response.status}. Body: ${body.slice(0, 200)}`
@@ -61,11 +66,11 @@ export class SmithUEClient {
     }, timeoutMs);
   }
 
-  private async getJson<T>(path: string, timeoutMs?: number): Promise<T> {
+  private async getJson<T>(path: string, timeoutMs?: number, acceptedStatuses: readonly number[] = []): Promise<T> {
     return this.fetchJson<T>(path, {
       method: 'GET',
       headers: this.headers(),
-    }, timeoutMs);
+    }, timeoutMs, acceptedStatuses);
   }
 
   private normalizeRequestError(err: unknown, command: string): Error {
@@ -131,7 +136,15 @@ export class SmithUEClient {
   }
 
   async getReady(): Promise<{ ready: boolean; version?: string; engine_version?: string; pie_active?: boolean }> {
-    return this.getJson<{ ready: boolean; version?: string; engine_version?: string; pie_active?: boolean }>('/ready');
+    // The plugin intentionally returns HTTP 503 with {ready:false} while the
+    // AssetRegistry is still loading. Treat that one status as a valid probe
+    // result so `status --wait` can keep polling; all other non-2xx responses
+    // remain errors.
+    return this.getJson<{ ready: boolean; version?: string; engine_version?: string; pie_active?: boolean }>(
+      '/ready',
+      undefined,
+      [503],
+    );
   }
 
   async isConnected(): Promise<boolean> {

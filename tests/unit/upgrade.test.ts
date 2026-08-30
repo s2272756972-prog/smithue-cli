@@ -39,7 +39,10 @@ describe('upgradeCommand', () => {
 
     await upgradeCommand();
 
-    expect(mockExecSync).toHaveBeenCalledWith('npm update -g smithue-cli', { stdio: 'pipe', encoding: 'utf-8' });
+    expect(mockExecSync).toHaveBeenCalledWith(
+      'npm install -g github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat',
+      { stdio: 'pipe', encoding: 'utf-8' },
+    );
     expect(mockPrintError).not.toHaveBeenCalled();
     expect(mockPrintResult).toHaveBeenCalledWith(expect.objectContaining({
       status: 'updated',
@@ -47,15 +50,15 @@ describe('upgradeCommand', () => {
     }));
   });
 
-  it('prints error and exits non-zero when npm update fails', async () => {
+  it('prints error and exits non-zero when the compatibility install fails', async () => {
     mockExecSync.mockImplementationOnce(() => {
-      throw new Error('npm update failed');
+      throw new Error('compatibility install failed');
     });
 
     await expect(upgradeCommand()).rejects.toThrow('process.exit:1');
 
     expect(mockPrintResult).not.toHaveBeenCalled();
-    expect(mockPrintError).toHaveBeenCalledWith(expect.objectContaining({ message: 'npm update failed' }));
+    expect(mockPrintError).toHaveBeenCalledWith(expect.objectContaining({ message: 'compatibility install failed' }));
     expect(exitSpy).toHaveBeenCalledWith(1);
   });
 

@@ -156,7 +156,7 @@ program
 // ---------------------------------------------------------------------------
 program
   .command('upgrade')
-  .description('Update smithue-cli globally via npm')
+  .description('Update smithue-cli from the UE5.1/UE5.5 compatibility branch')
   .action(async () => {
     await upgradeCommand();
   });

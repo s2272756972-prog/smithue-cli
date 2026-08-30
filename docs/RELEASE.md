@@ -1,11 +1,12 @@
-# smithue-cli 发版 Spec（git + npm 发包流程）
+# smithue-cli 兼容分支分发 Spec（GitHub 安装）
 
-> 给维护者 / AI 代理。发 `smithue-cli` 到 npm 前**必读**。本文件把经过验证的发包流程固定下来，照着走即可，避免漏掉 registry、CJK 提交、版本独立等坑。
+> 给维护者 / AI 代理。本 fork 当前通过 GitHub 分支分发，尚未发布自有 npm 包；未经明确授权不要执行 `npm publish`。
 
 ## 0. 前提与身份
 
-- **包名**：`smithue-cli`（npm，`access: public`，owner `dingxiao`）。
-- **分支**：`main`（remote `123dx-svg/smithue-cli`）。
+- **包名**：`smithue-cli`（保留上游名称，GitHub 安装后仍提供 `smithue-cli` 命令）。
+- **分支**：`ue5.1-ue5.5-compat`（remote `s2272756972-prog/smithue-cli`）。
+- **安装 spec**：`github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat`。
 - **与插件版本号完全独立**：`smithue-cli` 与 `SmithUE` 插件是两个独立产品、独立版本号，**禁止互相比较 / 对齐**。兼容性以 HTTP 协议契约为准。
 - **工具链**：npm-only（**无 bun**）、TypeScript、ESM / NodeNext（本地 import 必须带 `.js`）、测试用 vitest。
 
@@ -41,7 +42,7 @@ npm test            # vitest run → 全绿
 npm run typecheck   # tsc --noEmit → 退出码 0
 ```
 
-## 4. 标准发版流程（逐步）
+## 4. 标准分发流程（逐步）
 
 ```bash
 # 1) 改动落地（src / skill/SKILL.md / docs ...），CJK 文件用 Edit/Write 改
@@ -51,25 +52,25 @@ npm run typecheck   # tsc --noEmit → 退出码 0
 # 3) bump 版本
 npm version patch --no-git-tag-version
 
-# 4) 提交（提交信息写到文件，再 -F；不要用多行 -m）
+# 4) 提交并推送兼容分支
 git add -A                      # 或精确 add 改动文件
 git commit -F <msgfile>
-git push origin main
+git push origin ue5.1-ue5.5-compat
 
-# 5) 发布（必须显式 registry！见 §1.1）
-npm publish --registry https://registry.npmjs.org
-
-# 6) 验证
-npm view smithue-cli version --registry https://registry.npmjs.org   # = 刚发的版本
-git status                                                            # 干净
+# 5) 从 GitHub 分支安装到临时 prefix，验证 prepare 会生成 dist + bin
+npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat" --prefix <temp-prefix>
+<temp-prefix>/smithue-cli --version
+git status
 ```
+
+> 如未来要发布 npm，必须先确定自有包名/权限并获得明确授权，再单独执行 npm 发布流程；不能覆盖上游 `smithue-cli` 包。
 
 > **doc-only / 非进包改动**（如本 `docs/RELEASE.md`、CONTRIBUTING）：只 `git commit + push`，**不需要 bump / npm publish**（它们不在 `files` 白名单，不进 npm 包）。
 
 ## 5. SKILL 部署（`smithue-control`）
 
 - **`skill/`（SKILL.md + `references/` + `scripts/`）是唯一发布 / 部署源**（在 `files` 白名单内）。**不要**改其它同名副本。
-- `scripts/postinstall.cjs` 在**全局安装**（`npm i -g smithue-cli`）时自动把整个 `skill/` bundle 部署到：
+- `scripts/postinstall.cjs` 在**全局安装兼容分支**时自动把整个 `skill/` bundle 部署到：
   - `~/.agents/skills/smithue-control/`（主，始终）
   - `~/.claude/skills/`、`~/.codex/skills/`（仅当对应目录已存在）
   - 幂等覆盖；自动清理 0.15 之前旧布局残留的 `reference/` 目录；可用环境变量 `SMITHUE_SKILL_NO_AUTOINSTALL=1` 关闭。
@@ -89,9 +90,8 @@ if($?){
   # 用 Write 工具把提交信息写到 commit.txt（CJK 安全），再：
   git add -A
   git commit -F commit.txt
-  git push origin main
-  npm publish --registry https://registry.npmjs.org
-  npm view smithue-cli version --registry https://registry.npmjs.org
+  git push origin ue5.1-ue5.5-compat
+  npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat" --prefix <temp-prefix>
 }
 ```
 

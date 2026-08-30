@@ -11,7 +11,7 @@ description: 通过 smithue-cli 从外部检查或修改正在运行的 UE 编�
 
 ## 前置 / 适用
 
-- SmithUE 是 UE5 编辑器插件，通过本地 HTTP 暴露编辑器能力；`smithue-cli` 是其 npm CLI。`npm i -g smithue-cli` 或 `npx smithue-cli`。
+- SmithUE 是 UE5 编辑器插件，通过本地 HTTP 暴露编辑器能力；本兼容 CLI 从 fork 的 UE5.1 / UE5.5 分支安装：`npm i -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat"`。裸 `npm i -g smithue-cli` / `npx smithue-cli` 会解析到上游 npm 包。
 - **前提（缺一不可）**：
   1. 目标工程已**安装并启用 SmithUE 插件**（只装 CLI 不够——插件才是暴露能力的一端）。未装 → 先提醒用户装，否则本 skill 全部无效。
   2. **UE 编辑器正在运行**。每次操作前 `smithue-cli status` 确认 `ready:true`，没就绪就停。
@@ -20,11 +20,11 @@ description: 通过 smithue-cli 从外部检查或修改正在运行的 UE 编�
 ## 发现与调用（4 步，权威自描述——别靠记忆）
 
 ```powershell
-npx smithue-cli status                                  # 1. 发现编辑器：port/pid/project/ready
-npx smithue-cli search <关键词>                          # 2. 按意图定位工具（搜 name+description，跨所有域）
-npx smithue-cli list                                    # 2b. 或列功能域（23 域 / 200+ 工具）
-npx smithue-cli exec list_tools '{"domain":"Blueprint"}' # 3. 拿目标域全部命令 + 参数 schema（权威）
-npx smithue-cli exec <command> <params>                 # 4. 调用
+smithue-cli status                                  # 1. 发现编辑器：port/pid/project/ready
+smithue-cli search <关键词>                          # 2. 按意图定位工具（搜 name+description，跨所有域）
+smithue-cli list                                    # 2b. 或列功能域（23 域 / 200+ 工具）
+smithue-cli exec list_tools '{"domain":"Blueprint"}' # 3. 拿目标域全部命令 + 参数 schema（权威）
+smithue-cli exec <command> <params>                 # 4. 调用
 ```
 
 不知用哪个 → 先 `search`；知道域 → `list_tools` 看全量。**参数永远以第 3 步 schema 为准**（`search` 是字面子串匹配，搜不到换同义词或 `list_tools`）。
@@ -44,7 +44,7 @@ npx smithue-cli exec <command> <params>                 # 4. 调用
 ## ⚠️ 通用 Gotchas（跨任务必读）
 
 1. **PowerShell 传 JSON 会吞引号/拆参**（各版本不一）→ **首选直接用 CLI 配 `--params-file`**（参数写进文件，绕开 shell 引号解析）：
-   `npx smithue-cli exec <cmd> --params-file params.json`。**CJK（中文）参数务必走 `--params-file`**（命令行/管道代码页会把中文损坏成 `??`，详见 batch-and-dialogs.md）。
+   `smithue-cli exec <cmd> --params-file params.json`。**CJK（中文）参数务必走 `--params-file`**（命令行/管道代码页会把中文损坏成 `??`，详见 batch-and-dialogs.md）。
    若 `--params-file` 仍有格式/编码问题，用 skill 自带 `scripts/` 转换，按此顺序降级（两者都自动发现端口、UTF-8 直读文件、直发 HTTP，中文往返实测不坏）：
    ① `powershell -File scripts/smithue.ps1 <command> params.json`（PowerShell 自带 `Invoke-RestMethod`）
    ② `node scripts/smithue-exec.mjs <command> params.json`
@@ -81,6 +81,6 @@ npx smithue-cli exec <command> <params>                 # 4. 调用
 
 ## 维护
 
-- 插件仓库：github.com/123dx-svg/SmithUE ｜ CLI 仓库：github.com/123dx-svg/smithue-cli
+- 插件仓库：github.com/s2272756972-prog/SmithUE ｜ CLI 仓库：github.com/s2272756972-prog/smithue-cli（分支 `ue5.1-ue5.5-compat`）
 - 获取与当前 CLI 版本匹配的 skill：`smithue-cli skill --print` / `smithue-cli skill --install <dir>`
 - 完整命令参考：`smithue-cli list` 实时查询，或插件仓库 `TOOLS.md`。

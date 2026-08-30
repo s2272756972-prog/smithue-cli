@@ -1,4 +1,4 @@
-// Auto-deploy the `smithue-control` skill on GLOBAL install (`npm i -g smithue-cli`).
+// Auto-deploy the `smithue-control` skill on a GLOBAL compatibility-branch install.
 //
 // Self-contained CommonJS, shipped as-is (no build step), so a fresh/unbuilt checkout
 // never fails `npm install`. It must NEVER throw or exit non-zero — a failing

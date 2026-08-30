@@ -1,12 +1,14 @@
 # Changelog
 
-## Unreleased — UE5.1 / UE5.5 engine-version reporting
+## v0.15.1 — UE5.1 / UE5.5 compatibility distribution
 
 ### Added
 
 - `SmithUEClient.getReady()` 支持插件 `/ready` 返回的可选 `engine_version` 字段。
 - 端口文件与发现结果类型增加可选 `engine_version`，`smithue-cli status` 优先使用 `/ready` 返回值，并在缺失时回退到端口文件。
 - 单元测试分别覆盖 UE5.1 与 UE5.5 版本字符串，确认 JSON 透传和 `status` 输出形态。
+- `/ready` 的 HTTP 503 + `{ready:false}` 现在被视为合法启动状态，`status --wait` 会继续轮询；其他非 2xx 响应仍报错。
+- GitHub 安装增加 `prepare` 构建钩子，保证从兼容分支安装时生成 `dist/cli.js`。
 
 ### Compatibility
 
@@ -18,11 +20,14 @@
 
 - `npm run typecheck`：通过。
 - `npm run build`：通过。
-- `npm test -- --run`：25 个测试文件、191 项测试全部通过。
+- `npm test -- --run`：25 个测试文件、193 项测试全部通过。
+- `npm pack` 的干净产物不包含编译后的测试文件；安装到临时 prefix 后 `smithue-cli --version` 返回 `0.15.1`。
+- 分别连接真实 UE5.1 `-NullRHI` 与 UE5.5 编辑器完成 `status --wait` / `ping` 只读验证，两个实例均返回 `ready:true`、真实 `engine_version` 与 `pong`。
 
-### Release status
+### Distribution status
 
-- 本记录对应 `ue5.1-ue5.5-compat` 分支，尚未提升 `package.json` 版本，也尚未发布到 npm。
+- `package.json` 版本为 `0.15.1`，通过 `github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat` 分发。
+- 尚未发布到 npm；裸 `npx smithue-cli` 仍会解析到上游 npm 包，文档和升级命令不再使用该入口。
 
 ## v0.15.0 — Skill bundle: rename reference/ → references/ + new domain docs
 

@@ -7,11 +7,11 @@ The CLI is engine-version neutral and works with the SmithUE UE5.1 and UE5.5 com
 ## For AI Agents
 
 ### Quick Deploy
-- **Windows**: `npm install -g smithue-cli`
-- **macOS**: `npm install -g smithue-cli`
-- **Linux**: `npm install -g smithue-cli`
+- **Windows**: `npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat"`
+- **macOS**: `npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat"`
+- **Linux**: `npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat"`
 
-*Note: The v1 plugin server is Windows-only. The CLI npm package installs on any OS, but requires a Windows machine running the UE editor.*
+*Note: Git and Node.js 18+ are required for installation from the compatibility branch. The v1 plugin server is Windows-only; the CLI can install on any OS but requires a Windows machine running the UE editor.*
 
 ### Prerequisites check
 Ensure Node.js 18+ is installed. Run `node -v` to check.
@@ -29,14 +29,16 @@ smithue-cli status
 4. **Connection refused**: Check if your firewall blocks local port traffic. SmithUE only listens on 127.0.0.1.
 
 ## Installation
-Standard installation via npm:
+Install the maintained compatibility build directly from this fork:
 ```bash
-npm install -g smithue-cli
+npm install -g "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat"
 ```
-Or run directly without installing:
+Or run it without a permanent global install:
 ```bash
-npx smithue-cli <command>
+npx --yes --package "github:s2272756972-prog/smithue-cli#ue5.1-ue5.5-compat" smithue-cli <command>
 ```
+
+Plain `npm install -g smithue-cli` or `npx smithue-cli` resolves the upstream npm package, not this compatibility build.
 
 ## Subcommands
 
@@ -47,7 +49,7 @@ npx smithue-cli <command>
 | `search` | Find assets or objects by string |
 | `status` | Show running UE instances and their ports |
 | `batch` | Run multiple read-only commands sequentially |
-| `upgrade` | Update the CLI to the latest version via npm |
+| `upgrade` | Update the CLI from this fork's compatibility branch |
 | `prune` | Remove stale port files from crashed instances |
 | `purge` | Remove the entire `.smithue` directory (full uninstall cleanup) |
 | `use` | Pin (or unpin) a default SmithUE instance for multi-editor setups |

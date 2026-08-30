@@ -161,7 +161,7 @@ describe('SmithUEClient', () => {
 
   describe('getReady()', () => {
     it('GETs /ready and returns parsed JSON', async () => {
-      const readyPayload = { ready: true, version: '1.15.0-UE5.1', engine_version: '5.1.1-0+++UE5+Release-5.1', pie_active: false };
+      const readyPayload = { ready: true, version: '1.15.1-UE5.1', engine_version: '5.1.1-0+++UE5+Release-5.1', pie_active: false };
       const spy = mockFetch(readyPayload);
       const client = makeClient();
       const result = await client.getReady();
@@ -171,6 +171,21 @@ describe('SmithUEClient', () => {
       expect(url).toBe(`http://${HOST}:${PORT}/ready`);
       expect((init.method as string).toUpperCase()).toBe('GET');
       expect(result).toEqual(readyPayload);
+    });
+
+    it('accepts HTTP 503 with ready:false so status --wait can keep polling', async () => {
+      const notReadyPayload = { ready: false };
+      mockFetch(notReadyPayload, 503);
+      const client = makeClient();
+
+      await expect(client.getReady()).resolves.toEqual(notReadyPayload);
+    });
+
+    it('still rejects unexpected non-2xx responses', async () => {
+      mockFetch({ error: 'broken' }, 500);
+      const client = makeClient();
+
+      await expect(client.getReady()).rejects.toThrow(/HTTP 500/);
     });
 
     it('uses 127.0.0.1 not localhost', async () => {
